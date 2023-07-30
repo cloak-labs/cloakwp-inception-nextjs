@@ -5,4 +5,5 @@ You have a couple options to bootstrap a WordPress backend that integrates with 
 composer create-project cloakwp-bedrock
 ```
 This will bootstrap CloakWP's WordPress starter (based on the wonderful Bedrock boilerplate) into this project's `/backend` folder. It's built to integrate with the Inception frontend out-of-the-box, with essentially zero configuration. Once bootstrapped, follow the generated README from cloakwp-bedrock.
-- Option #2: create your own WordPress installation separate from this project/repo, however you're used to doing so, and delete this `/backend` folder. Configure your WordPress intallation, including the installation of the CloakWP Plugin, to integrate with this frontend. 
+- Option #2: do the same as option #1 but within a separate/standalone repo, if you'd prefer not to manage your WP installation and decoupled frontend as a monorepo.
+- Option #3: create your own WordPress installation separate from this project/repo, however you're used to doing so, and delete this `/backend` folder. Unlike options 1 and 2, you'll need to spend considerable time configuring WordPress, including the installation of the CloakWP Plugin, to integrate with this frontend.
