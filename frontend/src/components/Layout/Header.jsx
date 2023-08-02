@@ -36,8 +36,10 @@ export function Header({ navBarData }) {
     };
   }, []);
 
-  const menuItems = navBarData.menu_items.slice(0, -1)
-  const menuButton = navBarData.menu_items[navBarData.menu_items.length - 1]
+  if(!navBarData || !navBarData.menu_items) return <></>
+
+  const menuItems = navBarData?.menu_items.slice(0, -1)
+  const menuButton = navBarData?.menu_items[navBarData?.menu_items.length - 1]
   
   return (
     <header className={classNames(

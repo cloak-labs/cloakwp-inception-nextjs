@@ -23,7 +23,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       pageData: data,
-      navBarData,
+      navBarData: navBarData,
       preview: context.preview ?? false,
       previewParams: preview.context ?? null,
     },

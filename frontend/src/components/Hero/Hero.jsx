@@ -60,7 +60,7 @@ export const Hero = ({ data }) => {
                 {children}
               </div>
               <div className="sm:h-full col-span-1 sm:col-span-3 lg:col-span-1">
-                {image &&
+                {(image && image.src) &&
                   <Image
                     src={image}
                     priority={true}
