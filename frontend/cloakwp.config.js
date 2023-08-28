@@ -1,7 +1,7 @@
 module.exports = {
   sources: {
     default: {
-      url: process.env.WP_URL_1,
+      url: process.env.NEXT_PUBLIC_WP_URL_1,
       secret: process.env.WP_SECRET_1,
       jwt: process.env.WP_JWT_1,
       adminPath: "wp/wp-admin",
