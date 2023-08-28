@@ -5,10 +5,10 @@ export default function Page({ pageData }) {
 }
 
 export async function getStaticProps(context) {
-  const { getPage, getPreviewData, getMenus } = await import('cloakwp');
-  console.log({slug: context.params.slug})
+  const { getPage, getPreviewData, getMenus, getACFOptions } = await import('cloakwp');
   let { data } = await getPage({slug: context.params.slug});
   const navBarData = await getMenus('header-nav');
+  const options = await getACFOptions();
 
   let preview = {};
   const { preview: isPreview, previewData } = context
@@ -24,8 +24,9 @@ export async function getStaticProps(context) {
     props: {
       pageData: data,
       navBarData: navBarData,
-      preview: context.preview ?? false,
-      previewParams: preview.context ?? null,
+      options: options,
+      isPreview: context.preview ?? false,
+      previewParams: preview.params ?? null,
     },
     notFound,
     revalidate: 10,
