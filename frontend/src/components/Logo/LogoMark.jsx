@@ -1,6 +1,6 @@
 // We pull out the LogoMark SVG into a separate component so we have the ability to show the mark on its own
-export function LogoMark({ dark = true }) {
-  const color = dark ? '#0B0E21' : "#ffffff"
+export function LogoMark({ onDark = false }) {
+  const color = onDark ? "#ffffff" : '#0B0E21'
 
   return (
     <>
