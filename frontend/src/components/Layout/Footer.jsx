@@ -1,67 +1,84 @@
 import { Link } from '@/components/Link';
 import { Container } from '@/components/Layout';
-import { metaConfig } from '@/config/metaConfig';
-import { Logo } from '@/components/Logo';
-import { Facebook, Instagram, Twitter } from '@/components/Icons/Social';
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  LinkedIn,
+  YouTube,
+} from '@/components/Icons/Social';
 import CMSLogo from '../Logo/CMSLogo';
 import { useGlobals } from 'cloakwp';
-import parse from 'html-react-parser'
-
-const content = {
-    social: [
-      {
-        Icon: Facebook,
-        href: metaConfig.links.social.facebook
-      },
-      {
-        Icon: Instagram,
-        href: metaConfig.links.social.instagram
-      },
-      {
-        Icon: Twitter,
-        href: metaConfig.links.social.twitter
-      },
-    ],
-    copyright: `${new Date().getFullYear()} ${metaConfig.companyName}. All rights reserved.`
-}
+import parse from 'html-react-parser';
 
 export function Footer() {
-  const { options, navBarData } = useGlobals()
+  const {
+    options: { company_name, tagline, facebook, instagram, twitter, linkedin, youtube },
+    navBarData,
+  } = useGlobals();
+
+  const socialLinks = [
+    {
+      Icon: Facebook,
+      href: facebook,
+    },
+    {
+      Icon: Instagram,
+      href: instagram,
+    },
+    {
+      Icon: Twitter,
+      href: twitter,
+    },
+    {
+      Icon: LinkedIn,
+      href: linkedin,
+    },
+    {
+      Icon: YouTube,
+      href: youtube,
+    },
+  ];
 
   return (
-    <footer className='bg-gray-900 text-gray-200 py-14'>
-      <Container>
-        <div className='flex flex-col items-center justify-center my-4 px-6'>
-          <div className='flex flex-col gap-y-3'>
-            <Link href='/'>
-              <CMSLogo onDark imgClassName="object-center" />
-            </Link>
-            {options?.tagline && <span className='text-gray-300 text-sm text-center'>{parse(options.tagline)}</span>}
-          </div>
-          <div className='flex-col text-center sm:flex-row flex flex-wrap justify-center gap-x-10 gap-y-3 my-10'>
-            {navBarData?.menu_items?.slice(0,-1).map(( {title, url}, index ) => (
-              <Link href={url} key={index}>
-                <p className='uppercase text-base hover:text-white'>
-                  {title}
-                </p>
-              </Link>
-            ))}
-          </div>
-          <div className='flex justify-between gap-6 mt-2'>
-            {
-              content.social.map( ({Icon, href}, index) => (
-                <Link href={href} key={index}>
-                  <Icon className="text-gray-200 hover:text-blue-200" />
-                  {/* <Image width={25} height={25} src={icon} className='w-7 h-7'/> */}
-                </Link>
-              ))
-            }
-          </div>
-          <p className='mt-6 text-sm text-center text-gray-400'>
-            &copy; {`${new Date().getFullYear()} ${options.company_name}. All rights reserved.`}
-          </p>
-        </div>
-      </Container>
-    </footer>
-  )
+    <Container
+      as="footer"
+      className="flex flex-col items-center justify-center bg-gray-900 py-14 text-gray-200 sm:px-6 sm:py-20 2xl:py-24"
+    >
+      <div className="flex flex-col gap-y-3">
+        <Link href="/">
+          <CMSLogo
+            onDark
+            imgClassName="object-center"
+            className="h-8 sm:h-10"
+          />
+        </Link>
+        {tagline && (
+          <span className="text-center text-sm text-gray-300 xl:text-base">
+            {parse(tagline)}
+          </span>
+        )}
+      </div>
+      <div className="my-10 flex flex-col flex-wrap justify-center gap-x-10 gap-y-3 text-center sm:flex-row">
+        {navBarData?.menu_items?.slice(0, -1).map(({ title, url }, index) => (
+          <Link href={url} key={index}>
+            <p className="text-base uppercase hover:text-white">{title}</p>
+          </Link>
+        ))}
+      </div>
+      <div className="flex justify-center gap-6">
+        {socialLinks.filter(({ href }) => href).map(({ Icon, href }, index) => (
+          <Link href={href} key={index}>
+            <Icon className="text-gray-200 hover:text-blue-200" />
+          </Link>
+        ))}
+      </div>
+      <p className="mt-6 text-center text-sm text-gray-400">
+        &copy;{' '}
+        {`${new Date().getFullYear()} ${
+          company_name
+        }. All rights reserved.`}
+      </p>
+    </Container>
+  );
 }
