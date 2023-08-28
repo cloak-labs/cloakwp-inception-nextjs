@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import parse from 'html-react-parser';
 import stripHtml from '@/utils/stripHtml';
-import { Blocks, deepMerge } from 'cloakwp';
+import { Blocks, deepMerge, useGlobals } from 'cloakwp';
 import { Hero } from '@/components/Hero';
 import { Container } from '@/components/Layout';
 import myBlockConfig from '@/config/myBlockConfig';
-import { metaConfig } from '@/config/metaConfig';
 
 
 export default function BlogSinglePost({data}) {
+  const { options } = useGlobals()
 
   let heroData = { // TODO: adjust blog post hero settings
     hero_style: 'tertiary',
@@ -20,7 +20,7 @@ export default function BlogSinglePost({data}) {
     display_hero: true
   }
 
-  const metatitle = `${data?.title?.rendered?.replaceAll('&#8217;', '\'') || "Blog Post"} | ${metaConfig.companyName}`
+  const metatitle = `${data?.title?.rendered?.replaceAll('&#8217;', '\'') || "Blog Post"} | ${options.company_name}`
 
   return (
     <>

@@ -1,13 +1,14 @@
 import Head from 'next/head';
 import { Container } from '@/components/Layout'
-import { metaConfig } from '@/config/metaConfig';
+import { useGlobals } from 'cloakwp';
 
-export default function Custom404({ errMessage }) {
-  console.log({errMessage})
+export default function Custom404() {
+  const { options } = useGlobals()
+
   return (
     <>
       <Head>
-        <title>404 Not Found | {metaConfig.companyName}</title>
+        <title>404 Not Found | {options.company_name}</title>
       </Head>
       <section className="relative overflow-hidden">
         <Container>
