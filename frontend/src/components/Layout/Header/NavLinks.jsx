@@ -12,8 +12,8 @@ export function NavLinks({ links }) {
         key={id}
         href={url}
         className={classNames(
-          'relative -mx-3 -my-2 rounded-full px-3 py-1 text-base 2xl:text-lg transition-colors delay-150 hover:bg-gray-900 hover:text-gray-100 hover:delay-[0ms]',
-          isCurrentPage ? 'font-semibold text-gray-800' : 'text-gray-600'
+          'relative -mx-3 -my-2 rounded-full px-3 py-1 text-base transition-colors delay-150 hover:bg-gray-900 hover:text-gray-100 hover:delay-[0ms] 2xl:text-lg',
+          isCurrentPage ? 'text-blue-700' : 'text-gray-600'
         )}
       >
         {title}
