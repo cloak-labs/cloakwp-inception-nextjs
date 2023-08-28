@@ -10,7 +10,7 @@ export default function CMSLogo({ className, imgClassName, onDark = false, ...pr
   return (
     <>
       {logo?.url ? (
-        <div className={classNames('relative min-w-[200px] w-auto h-8', className)}>
+        <div className={classNames('relative min-w-[200px] w-auto h-7 sm:h-8', className)}>
           <Image
             src={logo.url}
             alt={logo.alt}
