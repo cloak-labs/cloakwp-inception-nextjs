@@ -2,7 +2,8 @@ import Head from 'next/head';
 import { Container } from '@/components/Layout'
 import { metaConfig } from '@/config/metaConfig';
 
-export default function Custom404() {
+export default function Custom404({ errMessage }) {
+  console.log({errMessage})
   return (
     <>
       <Head>
@@ -25,14 +26,16 @@ export default function Custom404() {
   )
 }
 
-export async function getStaticProps(context) {
-  const { getMenus } = await import('cloakwp');
+export async function getStaticProps() {
+  const { getMenus, getACFOptions } = await import('cloakwp');
   const navBarData = await getMenus('header-nav');
+  const options = await getACFOptions();
 
   return {
     props: {
       navBarData,
+      options: options,
     },
-    revalidate: 10,
+    revalidate: 200,
   };
 }
