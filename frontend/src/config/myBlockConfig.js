@@ -29,7 +29,7 @@ const myBlockConfig = {
   'acf/cards': {
     component: CardsGridBlock,
     container: true,
-    containerClasses: 'py-12',
+    // containerClasses: 'py-12',
   },
   'acf/testimonial': {
     component: TestimonialBlock,
