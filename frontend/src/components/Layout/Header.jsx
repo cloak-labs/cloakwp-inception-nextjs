@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import classNames from '@/utils/classNames';
 import { Popover } from '@headlessui/react';
 import { Link } from '@/components/Link';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Layout';
-import { Logo } from '@/components/Logo';
 import { NavLinks } from '@/components/Layout';
 import { HeroIcon } from '@/components/Icons';
-
+import CMSLogo from '../Logo/CMSLogo';
+import { useGlobals } from 'cloakwp';
 
 function MobileNavLink({ children, ...props }) {
   return (
@@ -22,8 +21,9 @@ function MobileNavLink({ children, ...props }) {
   )
 }
 
-export function Header({ navBarData }) {
+export function Header() {
   const [isTop, setIsTop] = useState(true);
+  const { navBarData } = useGlobals()
   
   useEffect(() => {
     const handleScroll = () => {
@@ -50,7 +50,7 @@ export function Header({ navBarData }) {
         <Container className="relative z-50 justify-between px-0 sm:px-0 md:px-0 xmd:px-4">
           <div className="relative z-10 flex w-full items-center py-4 xmd:gap-5 lg:gap-12 xl:gap-x-20">
             <Link href="/" aria-label="Home" className='z-50 pl-4 mr-auto flex-grow-0 xmd:pl-0'>
-              <Logo />
+              <CMSLogo />
             </Link>
             <div className="hidden xmd:justify-center xmd:flex-grow xmd:flex xmd:gap-x-10 xl:gap-x-16 2xl:gap-x-20">
               <NavLinks links={menuItems}/>
@@ -72,27 +72,16 @@ export function Header({ navBarData }) {
                       )
                     }
                   </Popover.Button>
-                  <AnimatePresence initial={false}>
                     {open && (
                       <>
                         <Popover.Overlay
                           static
-                          as={motion.div}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
+                          // as={'div'}
                           className="fixed inset-0 z-0 bg-gray-100/60 backdrop-blur"
                         />
                         <Popover.Panel
                           static
-                          as={motion.div}
-                          initial={{ opacity: 0, y: -32 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{
-                            opacity: 0,
-                            y: -32,
-                            transition: { duration: 0.2 },
-                          }}
+                          // as={'div'}
                           className="absolute inset-x-0 top-0 z-0 px-6 pt-24 pb-6 origin-top shadow-2xl rounded-b-2xl bg-gray-50 shadow-gray-900/20"
                         >
                           <div className="space-y-2 mb-4">
@@ -106,11 +95,11 @@ export function Header({ navBarData }) {
                         </Popover.Panel>
                       </>
                     )}
-                  </AnimatePresence>
                 </>
               )}
             </Popover>
             {/* END Mobile Menu */}
+
             {menuButton && menuButton.url && (
               <Button href={menuButton.url} className="hidden xmd:block">
                 {menuButton.title}

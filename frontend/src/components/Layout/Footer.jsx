@@ -1,9 +1,11 @@
-import Image from 'next/future/image';
 import { Link } from '@/components/Link';
 import { Container } from '@/components/Layout';
 import { metaConfig } from '@/config/metaConfig';
 import { Logo } from '@/components/Logo';
 import { Facebook, Instagram, Twitter } from '@/components/Icons/Social';
+import CMSLogo from '../Logo/CMSLogo';
+import { useGlobals } from 'cloakwp';
+import parse from 'html-react-parser'
 
 const content = {
     social: [
@@ -23,21 +25,23 @@ const content = {
     copyright: `${new Date().getFullYear()} ${metaConfig.companyName}. All rights reserved.`
 }
 
-export function Footer({ navBarData }) {
+export function Footer() {
+  const { options, navBarData } = useGlobals()
+
   return (
-    <footer className='bg-gray-900 text-blue-200 py-14'>
+    <footer className='bg-gray-900 text-gray-200 py-14'>
       <Container>
         <div className='flex flex-col items-center justify-center my-4 px-6'>
-          <div>
+          <div className='flex flex-col gap-y-3'>
             <Link href='/'>
-              <Logo dark={false} />
-              {/* <Image width={225} height={70} src="/images/footer_logo.png" className="w-48" quality={100} /> */}
+              <CMSLogo onDark imgClassName="object-center" />
             </Link>
+            {options?.tagline && <span className='text-gray-300 text-sm text-center'>{parse(options.tagline)}</span>}
           </div>
           <div className='flex-col text-center sm:flex-row flex flex-wrap justify-center gap-x-10 gap-y-3 my-10'>
-            {navBarData.menu_items.slice(0,-1).map(( {title, url}, index ) => (
+            {navBarData?.menu_items?.slice(0,-1).map(( {title, url}, index ) => (
               <Link href={url} key={index}>
-                <p className='uppercase text-base'>
+                <p className='uppercase text-base hover:text-white'>
                   {title}
                 </p>
               </Link>
@@ -47,14 +51,14 @@ export function Footer({ navBarData }) {
             {
               content.social.map( ({Icon, href}, index) => (
                 <Link href={href} key={index}>
-                  <Icon className="text-blue-200" />
+                  <Icon className="text-gray-200 hover:text-blue-200" />
                   {/* <Image width={25} height={25} src={icon} className='w-7 h-7'/> */}
                 </Link>
               ))
             }
           </div>
-          <p className='mt-6 text-sm text-center'>
-            &copy; {content.copyright}
+          <p className='mt-6 text-sm text-center text-gray-400'>
+            &copy; {`${new Date().getFullYear()} ${options.company_name}. All rights reserved.`}
           </p>
         </div>
       </Container>
