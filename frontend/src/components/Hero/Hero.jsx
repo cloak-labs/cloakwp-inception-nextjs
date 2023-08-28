@@ -4,7 +4,7 @@ import { Button } from '@/components/Button';
 import { Eyebrow, H1, P } from '@/components/Typography';
 import { ConditionalWrapper, Container } from '@/components/Layout';
 
-export const Hero = ({ data }) => {
+export const Hero = ({ data = {} }) => {
   const { backgroundColor, eyebrow, h1, subtitle, cta_button, image, content_alignment, hero_style } = data;
 
   let bgColor = `bg-${backgroundColor}`
