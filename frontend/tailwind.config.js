@@ -1,5 +1,5 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-const plugin = require('tailwindcss/plugin')
+const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,10 +9,12 @@ module.exports = {
     './node_modules/cloakwp/**/components/**/*.js',
     './node_modules/cloakwp/**/coreBlocks/**/*.js',
   ],
-  safelist: [ // this safelist ensures certain classes are ALWAYS included in the final tailwind build, which helps ensure cloakwp's dynamic block styling works as intended. 
+  safelist: [
+    // this safelist ensures certain classes are ALWAYS included in the final tailwind build, which helps ensure cloakwp's dynamic block styling works as intended.
     // TODO: update the color classes that always get included to match the project's colors
     {
-      pattern: /(bg|text)-(blue|gray)-(50|100|200|300|400|500|600|700|800|900|950)(\/\d{2})?/,
+      pattern:
+        /(bg|text)-(blue|gray)-(50|100|200|300|400|500|600|700|800|900|950)(\/\d{2})?/,
     },
     {
       pattern: /col-span-(1|2|3|4|5|6|7|8|9|10|11|12)/,
@@ -31,19 +33,22 @@ module.exports = {
   darkMode: 'class',
   theme: {
     typography: require('./typography'),
-    screens: { // we add 'xs' and 'xmd' in with the default Tailwind breakpoints (order matters which is why 'xmd' is placed where it is)
-      'xs': '475px',
-      'sm': defaultTheme.screens.sm,
-      'md': defaultTheme.screens.md,
-      'xmd': '940px',
-      'lg': defaultTheme.screens.lg,
-      'xl': defaultTheme.screens.xl,
+    screens: {
+      // we add 'xs' and 'xmd' in with the default Tailwind breakpoints (order matters which is why 'xmd' is placed where it is)
+      xs: '475px',
+      sm: defaultTheme.screens.sm,
+      md: defaultTheme.screens.md,
+      xmd: '940px',
+      lg: defaultTheme.screens.lg,
+      xl: defaultTheme.screens.xl,
       '2xl': defaultTheme.screens['2xl'],
     },
-    fontSize: { // by default, all the below sizes exactly match the Tailwind defaults -- we just include this here to make it easy to change the default sizes/line-heights should you want to
+    fontSize: {
+      // by default, all the below sizes exactly match the Tailwind defaults -- we just include this here to make it easy to change the default sizes/line-heights should you want to
       xs: ['0.75rem', { lineHeight: '1rem' }],
       sm: ['0.875rem', { lineHeight: '1.25rem' }],
       base: ['1rem', { lineHeight: '1.5rem' }],
+      md: ['1.05rem', { lineHeight: '1.75rem' }], // custom
       lg: ['1.125rem', { lineHeight: '2rem' }],
       xl: ['1.25rem', { lineHeight: '1.75rem' }],
       '2xl': ['1.5rem', { lineHeight: '2rem' }],
@@ -77,14 +82,14 @@ module.exports = {
         // serif: ['Della Respira', 'serif'] // add other font families like so
       },
       lineHeight: {
-        'tightest': '1.1',
+        tightest: '1.1',
       },
       listStyleType: {
         circle: 'circle',
       },
       maxWidth: {
         '8xl': '88rem',
-      }
+      },
     },
   },
   plugins: [
@@ -99,7 +104,7 @@ module.exports = {
           'box-shadow': 'inset 0 1px 0 0 rgb(255 255 255/0.2)',
         },
         // You can create custom Tailwind classes that are usable with Tailwind modifiers/breakpoints here (as we've done above)
-      })
+      });
     }),
   ],
-}
+};
