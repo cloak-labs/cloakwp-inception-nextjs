@@ -1,24 +1,20 @@
-import classNames from "@/utils/classNames";
-import { Footer, Header } from "@/components/Layout";
-import { AdminBar, useGlobals } from "cloakwp";
+import classNames from '@/utils/classNames';
+import { Footer, Header } from '@/components/Layout';
+import { AdminBar } from 'cloakwp';
 
 export function Layout({ children }) {
-  const { pageData, isPreview, previewParams } = useGlobals()
-
   return (
-    <div
-      className="flex flex-col min-h-screen"
-    >
-      <AdminBar
-        isPreview={isPreview}
-        previewParams={previewParams}
-        pageData={pageData}
-      />
+    <div className="flex min-h-screen flex-col">
+      <AdminBar />
       <Header />
-      <main className={classNames("w-full max-w-none overflow-hidden min-h-[300px]")}>
+      <main
+        className={classNames(
+          'min-h-[300px] w-full max-w-none overflow-hidden'
+        )}
+      >
         {children}
       </main>
       <Footer />
     </div>
-  )
+  );
 }
