@@ -1,39 +1,38 @@
-import { Fragment } from 'react';
 import { Card } from '@/components/Cards';
 import classNames from '@/utils/classNames';
 
-export function CardsGrid({ 
-  posts, // array of post data
+export function CardsGrid({
+  cards, // array of post data
   cta, // optional cta text to use on all cards
   limit = 3, // the maximum amount of cards to render
   cols = 3, // choose between 2 and 3 column layout
   bgColor,
   style,
   className = '',
-  postMeta
+  cardComponent: CardComponent = Card,
+  cardProps = {},
 }) {
-
   return (
     <div
       className={classNames(
-        "relative z-10 mx-auto grid gap-5 max-w-sm sm:max-w-none",
-        cols == 3 && 'xmd:grid-cols-3 sm:grid-cols-2',
+        'relative z-10 mx-auto grid max-w-sm gap-5 sm:max-w-none',
+        cols == 3 && 'sm:grid-cols-2 xmd:grid-cols-3',
         cols == 2 && 'md:grid-cols-2',
         className
       )}
       style={style}
     >
-      {posts?.slice(0, Math.min(limit, posts.length))?.map((post, i) => (
-        <Card
-          key={post.id || i}
-          image={post.imageUrl || '/images/placeholder.png'}
-          href={post.href}
-          title={post.title}
-          {...(post.cta? {cta: post.cta} : cta ? {cta} : {})}
-          description={post.description}
+      {cards?.slice(0, Math.min(limit, cards.length))?.map((card, i) => (
+        <CardComponent
+          key={card.id || i}
+          image={card.imageUrl || '/images/placeholder.png'}
+          href={card.href}
+          title={card.title}
+          {...(card.cta ? { cta: card.cta } : cta ? { cta } : {})}
+          description={card.description}
           backgroundColor={bgColor}
-          post={post}
-          postMeta={postMeta}
+          data={card}
+          {...cardProps}
         />
       ))}
     </div>
