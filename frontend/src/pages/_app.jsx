@@ -1,10 +1,11 @@
-import '@/styles/globals.css'
-import 'focus-visible'
-import Head from 'next/head'
+import '../../cloakwp.config';
+import '@/styles/globals.css';
+import 'focus-visible';
+import Head from 'next/head';
 import parse from 'html-react-parser';
-import { BlockConfigProvider, ErrorPage, GlobalsProvider } from 'cloakwp'
-import myBlockConfig from '@/config/myBlockConfig'
-import { Layout } from '@/components/Layout'
+import { BlockConfigProvider, ErrorPage, GlobalsProvider } from 'cloakwp';
+import myBlockConfig from '@/config/myBlockConfig';
+import { Layout } from '@/components/Layout';
 
 export default function App({ Component, pageProps }) {
   const {
@@ -13,9 +14,8 @@ export default function App({ Component, pageProps }) {
     navBarData = {},
     options = {},
     isPreview = false,
-    previewParams
-  } = pageProps
-  const { yoast_head } = pageData || {}
+  } = pageProps;
+  const { yoast_head } = pageData || {};
 
   return (
     <GlobalsProvider
@@ -23,7 +23,6 @@ export default function App({ Component, pageProps }) {
       navBarData={navBarData}
       pageData={pageData}
       isPreview={isPreview}
-      previewParams={previewParams}
     >
       {pageData?.data?.status == 403 ? (
         <Layout>
@@ -31,11 +30,7 @@ export default function App({ Component, pageProps }) {
         </Layout>
       ) : (
         <BlockConfigProvider blocks={myBlockConfig}>
-          {yoast_head &&
-            <Head>
-              {parse(yoast_head)}
-            </Head>
-          }
+          {yoast_head && <Head>{parse(yoast_head)}</Head>}
           {enableLayout ? (
             <Layout>
               <Component {...pageProps} />
@@ -46,5 +41,5 @@ export default function App({ Component, pageProps }) {
         </BlockConfigProvider>
       )}
     </GlobalsProvider>
-  )
+  );
 }
