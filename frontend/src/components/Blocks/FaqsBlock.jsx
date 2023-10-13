@@ -3,15 +3,15 @@ import { useBlockStyleBuilder } from "cloakwp";
 import parse from "html-react-parser";
 
 export function FaqsBlock({block}) {
-    const { classes, styles } = useBlockStyleBuilder(block.data)
-    const { title, faq_posts } = block.data.attrs.data
+    const { classes, styles } = useBlockStyleBuilder(block)
+    const { title, faq_posts } = block.data
     const faqsData = faq_posts?.value?.map(faq => ({
       id: faq.ID,
       question: faq.post_title,
       answer: parse(faq.post_content)
     }))
 
-    const { backgroundColor: bg } = block.data.attrs
+    const { backgroundColor: bg } = block.attrs
     const bgColor = bg.substring(0, bg.indexOf('-')) // eg. strips "blue" out of "blue-900"
     const bgHue = parseInt(bg.substring(bg.indexOf('-')+1, bg.length)) // eg. strips "900" out of "blue-900" (and converts to integer)
     let lightBg = true

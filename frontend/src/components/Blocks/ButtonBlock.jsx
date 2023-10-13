@@ -1,23 +1,23 @@
-import { useGlobalConfig } from "cloakwp"
-import { Button } from "@/components/Button"
-import { useBlockStyleBuilder } from "cloakwp"
+import { getWpInstance } from 'cloakwp';
+import { Button } from '@/components/Button';
 
-export function ButtonBlock({block}) {
-    const config = useGlobalConfig()
-    // const {classes, styles} = useBlockStyleBuilder(block.data)
-    let { backgroundColor, className, text, url } = block.data.attrs
+export function ButtonBlock({ block }) {
+  const wpUrl = getWpInstance().getUrl();
+  let { backgroundColor, className, text, url } = block.attrs;
 
-    let color = 'navy'
-    if(backgroundColor.includes('gray')) color = 'gray'
-    else if(backgroundColor.includes('blue')) color = 'baby'
-    else if(backgroundColor == 'blue-900') color = 'black'
+  let color = 'navy';
+  if (backgroundColor.includes('gray')) color = 'gray';
+  else if (backgroundColor.includes('blue')) color = 'baby';
+  else if (backgroundColor == 'blue-900') color = 'black';
 
-    let variant = 'outline'
-    if(className.includes('is-style-fill')) variant = 'solid'
+  let variant = 'outline';
+  if (className.includes('is-style-fill')) variant = 'solid';
 
-    const wpUrl = config.sources[block.dataSource].url
+  if (url.includes(wpUrl)) url = url.replace(wpUrl, '/');
 
-    if(url.includes(wpUrl)) url = url.replace(wpUrl, '/')
-
-    return <Button href={url} color={color} variant={variant}>{text}</Button>
+  return (
+    <Button href={url} color={color} variant={variant}>
+      {text}
+    </Button>
+  );
 }

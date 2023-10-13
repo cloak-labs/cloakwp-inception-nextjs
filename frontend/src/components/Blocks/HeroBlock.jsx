@@ -1,6 +1,8 @@
-import { Hero } from '@/components/Hero'
+import { Hero } from '@/components/Hero';
+import { useBlockStyleBuilder } from 'cloakwp/dist';
 
 export function HeroBlock({ block }) {
-  const { backgroundColor } = block.data.attrs
-  return <Hero data={{ ...block.data.attrs.data, backgroundColor }} />
+  const { backgroundColor } = block.attrs;
+  const { styles } = useBlockStyleBuilder(block);
+  return <Hero styles={styles} data={{ ...block.data, backgroundColor }} />;
 }

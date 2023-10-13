@@ -3,7 +3,7 @@ import { useBlockStyleBuilder } from 'cloakwp'
 import classNames from '@/utils/classNames'
 
 export function H4Block({block, className, children}) {
-  const { classes, styles } = useBlockStyleBuilder(block.data)
+  const { classes, styles } = useBlockStyleBuilder(block)
 
   return (
     <Eyebrow className={classNames(classes, className)} style={styles}>
