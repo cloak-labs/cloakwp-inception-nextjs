@@ -1,4 +1,7 @@
-import { BlockPreviewPage, getServerSideProps } from 'cloakwp'
+import {
+  BlockPreviewPage,
+  BlockPreviewPageSSP as getServerSideProps,
+} from 'cloakwp';
 
-export default BlockPreviewPage
-export { getServerSideProps }
+export default BlockPreviewPage;
+export { getServerSideProps };
