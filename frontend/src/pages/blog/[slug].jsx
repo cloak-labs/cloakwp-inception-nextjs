@@ -1,92 +1,83 @@
-import Head from 'next/head';
 import parse from 'html-react-parser';
 import stripHtml from '@/utils/stripHtml';
-import { Blocks, deepMerge, useGlobals } from 'cloakwp';
+import { Blocks, getWpInstance } from 'cloakwp';
 import { Hero } from '@/components/Hero';
 import { Container } from '@/components/Layout';
-import myBlockConfig from '@/config/myBlockConfig';
 
-
-export default function BlogSinglePost({data}) {
-  const { options } = useGlobals()
-
-  let heroData = { // TODO: adjust blog post hero settings
-    hero_style: 'tertiary',
-    tertiary_background_color: 'navy',
-    alignment: 'center',
-    eyebrow: 'THE BLOG',
-    h1: data?.title?.rendered,
-    subtitle: parse(stripHtml(data?.excerpt?.rendered)),
-    display_hero: true
-  }
-
-  const metatitle = `${data?.title?.rendered?.replaceAll('&#8217;', '\'') || "Blog Post"} | ${options.company_name}`
-
+export default function BlogSinglePost({ pageData }) {
+  console.log('post data: ', pageData);
   return (
     <>
-      <Head>
-        <title>{metatitle}</title>
-        <meta
-          name="description"
-          content={stripHtml(data?.excerpt?.rendered)}
-        />
-      </Head>
-      <Hero heroData={heroData} />
-      <section className="relative overflow-hidden pt-10 pb-14 md:pt-16 md:pb-24">
+      <Hero
+        data={{
+          hero_style: 'no_image',
+          backgroundColor: 'gray-100',
+          content_alignment: 'center',
+          eyebrow: 'THE BLOG',
+          h1: pageData?.title,
+          subtitle: parse(stripHtml(pageData?.excerpt)),
+        }}
+      />
+      <section className="relative overflow-hidden pb-14 pt-10 md:pb-24 md:pt-16">
         <Blocks
-          data={data?.blocksData}
-          container={({block}) => <Container className="relative" innerClassName="max-w-3xl lg:max-w-4xl">{block.rendered}</Container>}
-          blockConfig={deepMerge(
-            myBlockConfig,
-            {
-              'core/image': {
-                props: {
-                  className: 'mb-5'
-                }
-              },
-              'acf/cardsgrid': {
-                container: ({block}) => <Container className="relative" innerClassName="max-w-5xl lg:max-w-6xl">{block.rendered}</Container>
-              },
-            }
+          data={pageData?.blocks_data}
+          container={({ children }) => (
+            <Container
+              className="relative"
+              innerClassName="max-w-3xl lg:max-w-4xl"
+            >
+              {children}
+            </Container>
           )}
+          blocks={{
+            'core/image': {
+              props: {
+                className: 'mb-5',
+              },
+            },
+            'acf/cardsgrid': {
+              container: ({ children }) => (
+                <Container
+                  className="relative"
+                  innerClassName="max-w-5xl lg:max-w-6xl"
+                >
+                  {children}
+                </Container>
+              ),
+            },
+          }}
         />
       </section>
     </>
-  )
+  );
 }
 
-export async function getStaticProps(context) {
-  const { getPreviewData, getPost, getMenus } = await import('cloakwp');
+export async function getStaticProps(ctx) {
+  const wp = getWpInstance().serverApi();
 
-  const page = await getPost({slug: context.params.slug});
-  const navBarData = await getMenus('header-nav');
-  let data = page.data;
-
-  let preview = {};
-  const { preview: isPreview, previewData } = context
-
-  if (isPreview) {
-    preview = await getPreviewData(previewData);
-    data = preview.data;
-  }
-
-  const notFound = !data;
+  const pageData = ctx.preview
+    ? await getPreviewData(ctx.previewData, wp)
+    : await wp.posts().slug(ctx.params.slug).get();
 
   return {
     props: {
-      data,
-      navBarData,
-      preview: context.preview ?? false,
-      previewParams: preview.context ?? null,
+      pageData: pageData,
+      navBarData: await wp.menus().id('header-nav').get(),
+      options: await wp.options().get(),
+      isPreview: ctx.preview ?? false,
     },
-    notFound,
+    notFound: !pageData,
     revalidate: 10,
   };
 }
 
 export async function getStaticPaths() {
-  const { getPaths } = await import('cloakwp');
-  const paths = await getPaths('posts');
+  const wp = getWpInstance().serverApi();
+
+  const posts = await wp.posts().fields('slug').get();
+  const paths = posts.map(({ slug }) => ({
+    params: { slug },
+  }));
 
   return {
     paths: paths,

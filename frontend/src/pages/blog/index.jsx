@@ -1,31 +1,22 @@
-import { Blocks } from 'cloakwp';
+import { BlocksPage, getPreviewData, getWpInstance } from 'cloakwp';
 
-export default function BlogArchive({ pageData }) {
-  return <Blocks data={pageData?.blocksData} />
-}
+export default BlocksPage;
 
-export async function getStaticProps(context) {
-  const { getPreviewData, getPage, getMenus, getACFOptions } = await import('cloakwp');
-  let { data } = await getPage({ slug: 'blog' }); // manually pass in slug because context.params.page != '/blog' because it's an index file
-  const navBarData = await getMenus('header-nav');
-  const options = await getACFOptions();
+export async function getStaticProps(ctx) {
+  const wp = getWpInstance().serverApi();
 
-  let preview = {};
-  const { preview: isPreview, previewData } = context
-  
-  if (isPreview) {
-    preview = await getPreviewData(previewData);
-    data = preview.data;
-  }
+  const pageData = ctx.preview
+    ? await getPreviewData(ctx.previewData, wp)
+    : await wp.pages().slug('blog').get();
 
   return {
     props: {
-      pageData: data,
-      navBarData: navBarData,
-      options: options,
-      preview: context.preview ?? false,
-      previewParams: preview.params ?? null,
+      pageData: pageData,
+      navBarData: await wp.menus().id('header-nav').get(),
+      options: await wp.options().get(),
+      isPreview: ctx.preview ?? false,
     },
+    notFound: !pageData,
     revalidate: 10,
   };
 }

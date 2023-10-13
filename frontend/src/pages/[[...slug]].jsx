@@ -1,47 +1,44 @@
-import { Blocks } from 'cloakwp';
+import { BlocksPage, getPreviewData, getWpInstance } from 'cloakwp';
 
-export default function Page({ pageData }) {
-  return <Blocks data={pageData?.blocksData} />
-}
+export default BlocksPage;
 
-export async function getStaticProps(context) {
-  const { getPage, getPreviewData, getMenus, getACFOptions } = await import('cloakwp');
-  let { data } = await getPage({slug: context.params.slug});
-  const navBarData = await getMenus('header-nav');
-  const options = await getACFOptions();
+export async function getStaticProps(ctx) {
+  const wp = getWpInstance().serverApi();
 
-  let preview = {};
-  const { preview: isPreview, previewData } = context
-  
-  if (isPreview) {
-    preview = await getPreviewData(previewData);
-    data = preview.data;
-  }
+  const { slug } = ctx.params;
 
-  const notFound = !data;
+  const pageData = ctx.preview
+    ? await getPreviewData(ctx.previewData, wp)
+    : slug
+    ? await wp.pages().slug(slug).get()
+    : await wp.frontpage();
 
   return {
     props: {
-      pageData: data,
-      navBarData: navBarData,
-      options: options,
-      isPreview: context.preview ?? false,
-      previewParams: preview.params ?? null,
+      pageData: pageData,
+      navBarData: await wp.menus().id('header-nav').get(),
+      options: await wp.options().get(),
+      isPreview: ctx.preview ?? false,
     },
-    notFound,
+    notFound: !pageData,
     revalidate: 10,
   };
 }
 
 export async function getStaticPaths() {
-  const { getPaths } = await import('cloakwp')
-  let paths = await getPaths()
-  console.log({paths})
-  // const excludePaths = ['/blog', '/']
-  // paths = paths.filter(path => !excludePaths.includes(path))
+  const wp = getWpInstance().serverApi();
+
+  const pages = await wp.pages().fields('slug').get();
+  const paths = pages.map(({ slug }) =>
+    // [slug]
+    ({
+      params: { slug: [slug] },
+      // params: { slug },
+    })
+  );
 
   return {
-    paths,
-    fallback: 'blocking', // ensures that when new pages get created in WP, they get server-side rendered the first time a user tries to visit them (and then they get statically served from there on out)
-  }
+    paths: paths,
+    fallback: 'blocking', // ensures that when new posts get created in WP, they get server-side rendered the first time a user tries to visit them (and then they get statically served from there on out)
+  };
 }

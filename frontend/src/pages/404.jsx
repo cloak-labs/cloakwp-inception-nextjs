@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import { Container } from '@/components/Layout'
-import { useGlobals } from 'cloakwp';
+import { Container } from '@/components/Layout';
+import { getWpInstance, useGlobals } from 'cloakwp';
 
 export default function Custom404() {
-  const { options } = useGlobals()
+  const { options } = useGlobals();
 
   return (
     <>
@@ -13,29 +13,32 @@ export default function Custom404() {
       <section className="relative overflow-hidden">
         <Container>
           <div className="relative z-10 mx-auto flex h-[70vh] max-w-none flex-col items-center justify-center gap-y-4 sm:max-w-xl lg:max-w-3xl">
-            <div className="mx-auto max-w-md xl:max-w-lg mb-24 rounded-xl backdrop-blur-sm p-6 bg-white/10">
-              <h2 className="font-sans mt-4 text-lg text-blue-900 sm:text-xl">404 error</h2>
-              <h1 className="mt-4 text-4xl text-blue-900 sm:text-5xl">Page not found...</h1>
+            <div className="mx-auto mb-24 max-w-md rounded-xl bg-white/10 p-6 backdrop-blur-sm xl:max-w-lg">
+              <h2 className="mt-4 font-sans text-lg text-blue-900 sm:text-xl">
+                404 error
+              </h2>
+              <h1 className="mt-4 text-4xl text-blue-900 sm:text-5xl">
+                Page not found...
+              </h1>
               <p className="mt-6">
-                Sorry, the page you are looking for doesn&apos;t exist or has been moved.
+                Sorry, the page you are looking for doesn&apos;t exist or has
+                been moved.
               </p>
             </div>
           </div>
         </Container>
       </section>
     </>
-  )
+  );
 }
 
 export async function getStaticProps() {
-  const { getMenus, getACFOptions } = await import('cloakwp');
-  const navBarData = await getMenus('header-nav');
-  const options = await getACFOptions();
+  const wp = getWpInstance().serverApi();
 
   return {
     props: {
-      navBarData,
-      options: options,
+      navBarData: await wp.menus().id('header-nav').get(),
+      options: await wp.options().get(),
     },
     revalidate: 200,
   };
