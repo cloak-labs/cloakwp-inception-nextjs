@@ -1,0 +1,120 @@
+@tailwind base;
+
+/* Apply some default styling to certain elements -- useful for HTML being dynamically brought over from CMS */
+@layer base {
+  :root {
+    /* Customize the site-wide border-radius with this single variable: */
+    --radius: 0.7rem;
+  }
+
+  * {
+    @apply border-root-dim;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-root text-root;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  li,
+  a {
+    @apply font-sans;
+  }
+
+  h4 {
+    @apply font-mono;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-root;
+  }
+
+  p,
+  li {
+    @apply text-root-dim;
+  }
+
+  .dark p,
+  .dark li {
+    @apply text-root-dim/90;
+  }
+
+  a {
+    @apply focus:outline-none focus:ring-0;
+  }
+
+  p > a {
+    @apply text-link underline;
+  }
+
+  /* ol,
+  ul {
+    @apply mb-4;
+  } */
+
+  /* ol {
+    @apply list-decimal;
+  }
+
+  ul {
+    @apply list-disc;
+  } */
+
+  /* remove bottom margin of nested lists */
+  /* ol ol,
+  ol ul,
+  ul ol,
+  ul ul {
+    @apply mb-0;
+  }
+
+  ol li,
+  ul li {
+    @apply pl-2;
+  } */
+
+  pre {
+    @apply mb-4 overflow-auto bg-root-dim p-5;
+  }
+
+  code {
+    @apply relative rounded bg-root-dim px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+  }
+
+  code:before,
+  code:after {
+    @apply text-xs font-normal;
+    content: '`';
+  }
+
+  pre code {
+    @apply bg-transparent p-0 font-normal;
+  }
+
+  pre code::before,
+  pre code:after {
+    content: none;
+  }
+
+  hr {
+    @apply my-4;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+#__next {
+  min-height: 100%;
+}

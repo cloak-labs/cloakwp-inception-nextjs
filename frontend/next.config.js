@@ -1,19 +1,16 @@
-const { withCloakWP } = require('cloakwp');
+const { withCloakWP } = require('@cloakwp/nextjs');
 
 /** @type {import('next').NextConfig} */
 module.exports = withCloakWP({
   reactStrictMode: true,
   experimental: {
-    newNextLinkBehavior: true,
     scrollRestoration: true,
-    images: {
-      allowFutureImage: true,
-    },
   },
   images: {
     domains: [
       // TODO: add production WP URL to allowed image domains using getter function vs. manually adding it
       'localhost',
+      'd.pr',
     ],
   },
   async headers() {
@@ -26,7 +23,7 @@ module.exports = withCloakWP({
           {
             key: 'Access-Control-Allow-Origin',
             value: process.env.NEXT_PUBLIC_WP_URL,
-          }, // replace this your actual origin
+          },
           {
             key: 'Access-Control-Allow-Methods',
             value: 'GET,DELETE,PATCH,POST,PUT',

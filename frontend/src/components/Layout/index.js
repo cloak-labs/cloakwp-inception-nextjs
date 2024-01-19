@@ -1,8 +1,0 @@
-export { Footer } from './Footer'
-export { Header } from './Header/Header'
-export { NavLinks } from './Header/NavLinks'
-export { MobileMenu } from './Header/MobileMenu'
-export { MobileNavLink } from './Header/MobileNavLink'
-export { Layout } from './Layout'
-export { Container } from './Container'
-export { ConditionalWrapper } from './ConditionalWrapper'
