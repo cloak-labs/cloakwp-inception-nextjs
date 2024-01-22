@@ -30,7 +30,7 @@ export const Testimonial: FC<ReactStyleProps & TestimonialProps> = ({
       <blockquote className="scrollbar-thumb-root max-h-52 flex-grow scroll-mb-5 overflow-y-auto p-5 text-root scrollbar-thin">
         <TypographyP className="text-base">{`"${body}"`}</TypographyP>
       </blockquote>
-      <figcaption className="mb-0 flex items-center gap-x-4 border-t border-root-dim bg-root-dim px-5 py-3">
+      <figcaption className="mb-0 flex items-center gap-x-4 border-t border-root-dim bg-root-dim/50 px-5 py-3">
         {person.image?.src && (
           <img
             className="size-11 rounded-full border border-root bg-root-dim"
