@@ -13,8 +13,8 @@ export const boxShadow = cva({
   base: 'shadow-sm shadow-root shadows-scale-1.75 shadows-4 -shadow-spread-0.5 shadow-opacity-[3] dark:shadow-opacity-15 shadows-ease-out',
   variants: {
     shadowSize: {
-      sm: 'shadows-scale-1.5 shadow-y-[2px] shadow-opacity-[5] dark:shadow-opacity-[17]',
-      default: 'shadow-y-[2px] shadow-opacity-[4] dark:shadow-opacity-[17]',
+      sm: 'shadows-scale-1.5 shadow-y-px shadow-opacity-[4] dark:shadow-y-[2px] dark:shadow-opacity-20',
+      default: 'shadow-y-[2px] dark:shadow-opacity-[17]',
       md: 'shadows-5 shadow-y-[2px]',
       lg: 'shadows-6 shadow-y-[2px]',
       xl: 'shadows-6 shadows-scale-2 shadow-y-[3px] -shadow-spread-1',
