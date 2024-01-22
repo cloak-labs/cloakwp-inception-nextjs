@@ -11,6 +11,7 @@ import {
 import { ImageOptions } from '@/lib/types/sharedTypes';
 import React from 'react';
 import { HeroContainer } from './parts/HeroContainer';
+import { VignetteOverlay } from '../Effects/VignetteOverlay';
 
 export type HeroSinglePostProps = {
   date: string;
@@ -33,7 +34,7 @@ export const HeroSinglePost: React.FC<HeroSinglePostProps> = ({
           image?.src ? 'pb-32 xs:pb-48 sm:pb-56 md:pb-64 lg:pb-72' : 'pb-12'
         )}
       >
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-root [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        <VignetteOverlay />
         <div
           className={container({
             width: 'default',

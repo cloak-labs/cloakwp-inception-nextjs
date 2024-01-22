@@ -4,6 +4,7 @@ import { HeroContainer } from './parts/HeroContainer';
 import { HeroContent, type HeroContentProps } from './parts/HeroContent';
 import { cx } from '@/lib/utils/cva';
 import { ContainerVariants, container } from '@/lib/styles/container';
+import { VignetteOverlay } from '../Effects/VignetteOverlay';
 
 export type HeroProps = ReactStyleProps & {
   content: HeroContentProps;
@@ -24,7 +25,7 @@ export const Hero: FC<HeroProps> = ({
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-root [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+      <VignetteOverlay />
       <HeroContent
         {...content}
         className={cx(container({ width: contentWidth }), content.className)}
