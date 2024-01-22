@@ -98,7 +98,10 @@ export const ContactForm: React.FC<ReactStyleProps> = ({
       return;
     }
     executeRecaptcha('contactFormSubmit').then((gReCaptchaToken) => {
-      setIsFormProcessing(true);
+      setIsFormProcessing(true); // show loading state
+      setFormError(false); // hide potential errors from previous submission
+      setFormSuccess(false); // hide potential success message from previous submission
+      setFormMessage(''); // reset form message
 
       fetch('/api/form-submission', {
         method: 'POST',
