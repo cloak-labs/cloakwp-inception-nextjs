@@ -7,46 +7,7 @@ import { ErrorPage, GlobalsProvider } from '@cloakwp/react';
 import { Layout } from '@/components/Layout';
 import { ThemeProvider } from '@/components/Theme/ThemeProvider';
 import { fontSans, fontMono } from '@/lib/utils/fonts';
-import { compose, cva, cx } from '@/lib/utils/cva';
-
-const A = cva({
-  base: 'base-A',
-  variants: {
-    style: {
-      primary: 'primary-A',
-    },
-  },
-});
-
-const B = cva({
-  base: 'base-B',
-  variants: {
-    style: {
-      primary: 'primary-B',
-      secondary: 'secondary-B',
-    },
-    newBStyle: {
-      fancy: 'fancy-B',
-    },
-  },
-  // defaultVariants: {
-  //   newBStyle: 'fancy',
-  // },
-});
-
-const C = cva({
-  base: 'base-C',
-  variants: {
-    style: {
-      tertiary: 'tertiary-C',
-    },
-    newBStyle: {
-      fancy: 'fancy-C',
-    },
-  },
-});
-
-const merged = compose(A, B, C);
+import { cx } from '@/lib/utils/cva';
 
 export default function App({ Component, pageProps }) {
   const {
@@ -57,9 +18,6 @@ export default function App({ Component, pageProps }) {
     isPreview = false,
   } = pageProps;
   const { yoast_head } = pageData || {};
-
-  const classTest = merged({ style: 'primary', newBStyle: 'fancy' });
-  console.log({ classTest });
 
   return (
     <ThemeProvider
