@@ -24,6 +24,7 @@ export const DesktopMenu = React.forwardRef<
   React.ElementRef<typeof NavMenuPrimitive.Root>,
   DesktopMenuProps
 >(({ links, ...props }, ref) => {
+  // We use state to control Menu dropdown visibility due to `forceMount` (important for SEO) on `NavMenuContent`
   const [activeItemId, setActiveItemId] = React.useState('');
 
   return (
