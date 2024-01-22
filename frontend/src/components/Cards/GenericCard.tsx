@@ -35,7 +35,11 @@ export const GenericCard: React.FC<CardProps & GenericCardProps> = ({
         {image?.src && <CardImage {...image} />}
         <CardHeader>
           <CardTitle>{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          {description && (
+            <CardDescription className="text-root-dim">
+              {description}
+            </CardDescription>
+          )}
         </CardHeader>
         {cta && href && (
           <CardContent>
