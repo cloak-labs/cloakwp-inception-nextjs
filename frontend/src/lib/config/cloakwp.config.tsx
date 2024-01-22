@@ -6,6 +6,7 @@ import {
   type SingleBlockConfig,
   type HttpUrl,
   type HttpsUrl,
+  RestApiClientConfig,
 } from 'cloakwp';
 import { type DeepPartial } from 'ts-essentials';
 import { WPReactBlockRenderer } from '@cloakwp/react';
@@ -20,6 +21,7 @@ import {
   testimonialsDataRouter,
   testimonialsCarouselDataRouter,
   genericStylesDataRouter,
+  faqsDataRouter,
 } from '@/lib/data-routers';
 
 import { cx } from '@/lib/utils/cva';
@@ -31,6 +33,7 @@ import { Hero, HeroWithBgImage, HeroWithImageRight } from '@/components/Hero';
 import { TestimonialGrid, TestimonialCarousel } from '@/components/Testimonial';
 import { GenericCardGrid, PostGrid } from '@/components/Cards';
 import { ProtectedContactForm } from '@/components/Forms/ProtectedContactForm';
+import { FAQAccordions } from '@/components/FAQ/FAQAccordions';
 
 export const config = await buildCMSConfig({
   instances: [
@@ -200,6 +203,10 @@ export const config = await buildCMSConfig({
                 },
               },
             },
+            'acf/faqs': {
+              dataRouter: faqsDataRouter,
+              component: FAQAccordions,
+            },
             'acf/contact-form': {
               dataRouter: genericStylesDataRouter,
               component: ProtectedContactForm,
@@ -227,7 +234,29 @@ export const config = await buildCMSConfig({
            * This plugin itself allows nested plugins; here the `registerCloakWPMethods` plugin adds extra
            * methods to the Node WP API client for interacting with CloakWP's custom WP REST endpoints
            */
-          plugins: [registerCloakWPMethods],
+          plugins: [
+            registerCloakWPMethods,
+            // custom wpRestApiClient plugin that registers custom client methods/routes for our CPTs:
+            (incomingConfig: RestApiClientConfig) => {
+              return {
+                ...incomingConfig,
+                clientMutations: [
+                  ...(incomingConfig.clientMutations ?? []),
+                  ({ client }) => {
+                    if (!client) return;
+
+                    // register method to interact with Form Submission CPTs:
+                    client.formSubmissions = client.registerRoute(
+                      'wp/v2',
+                      '/form-submission/(?P<id>)'
+                    );
+
+                    return client;
+                  },
+                ],
+              };
+            },
+          ],
         }),
       ],
     },
